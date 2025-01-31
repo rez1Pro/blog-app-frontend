@@ -2,12 +2,11 @@
 import { useAsyncData } from '#app';
 const { id } = useRoute().params
 const config = useRuntimeConfig();
-
 // Get the route params
 const route = useRoute()
 
 const { data: post } = await useAsyncData<Post>('post', () =>
-    $fetch<Post>(`/posts/${route.params.id}`, {
+    $fetch<Post>(`/posts/${id}`, {
         baseURL: config.public.apiBase,
         headers: {
             'Content-Type': 'application/json',
@@ -15,6 +14,14 @@ const { data: post } = await useAsyncData<Post>('post', () =>
         }
     })
 );
+
+useHead({
+    title: `${post.value?.title} - ${config.public.APP_NAME}`,
+    meta: [
+        { name: 'description', content: 'Read the latest articles and updates on our blog.' },
+    ],
+});
+
 
 const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-US', {

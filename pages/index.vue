@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { useAsyncData } from '#app';
 const config = useRuntimeConfig();
+const nuxtApp = useNuxtApp();
 
+useHead({
+    title: `${config.public.APP_NAME} Ideas`,
+    meta: [
+        { name: 'description', content: 'Read the latest articles and updates on our blog.' },
+    ],
+});
 const pageSize = ref(9);
 
 const { data: posts, error: apiError, refresh } = await useAsyncData<{ data: Post[], total: number }>('posts', () =>
