@@ -1,5 +1,5 @@
 export default defineNuxtPlugin((nuxtApp) => {
-    nextTick(() => {
+    if (process.client) {
         const token = localStorage.getItem('token')
 
         if (token) {
@@ -15,8 +15,8 @@ export default defineNuxtPlugin((nuxtApp) => {
                     token: token
                 })
             }).catch((error) => {
-                localStorage.removeItem('token')
+                process.client ? localStorage.removeItem('token') : null
             })
         }
-    })
+    }
 })

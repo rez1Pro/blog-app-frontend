@@ -2,7 +2,10 @@
 const page = ref(1)
 const search = ref("")
 
-const { data: posts, refresh, processing } = await useApi(() => `all-posts?page=${page.value}&filter[title]=${search.value}`, {
+// Add error handling state
+const error = ref(null)
+
+const { data: posts, refresh, processing, error: apiError } = await useApi(() => `all-posts?page=${page.value}&filter[title]=${search.value}`, {
     server: true
     // onTransform(data) {
     //     console.log(data
@@ -10,10 +13,11 @@ const { data: posts, refresh, processing } = await useApi(() => `all-posts?page=
     // }    
 })
 
-
-console.log(posts.value?.data)
-
-const featuredArticle = computed(() => posts.value?.data[0])
+// Update computed to handle potential errors
+const featuredArticle = computed(() => {
+    if (apiError.value) return null
+    return posts.value?.data?.length ? posts.value.data[0] : null
+})
 
 const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -31,8 +35,22 @@ const formatDate = (dateString) => {
             Welcome to our Ideas Hub, where we share tips, trends and inspiration for unforgettable events.
         </p>
 
+        <!-- Error State -->
+        <div v-if="apiError" class="text-center py-12">
+            <p class="text-xl text-red-600 mb-4">Unable to load articles</p>
+            <button @click="refresh" class="text-blue-600 hover:underline">
+                Try again
+            </button>
+        </div>
+
+        <!-- No Posts State -->
+        <div v-else-if="!posts?.data?.length" class="text-center py-12">
+            <p class="text-xl text-gray-600 mb-4">No articles found</p>
+            <p class="text-gray-500">Check back later for new content</p>
+        </div>
+
         <!-- Featured Article -->
-        <article
+        <article v-else-if="featuredArticle"
             class="grid lg:grid-cols-2 gap-12 lg:gap-8 mb-20 bg-white rounded-2xl shadow-sm p-8 hover:shadow-md transition-shadow">
             <img :src="featuredArticle?.image_url" alt="Team Building"
                 class="w-full h-[380px] object-cover rounded-l-2xl shadow-sm" />
@@ -45,8 +63,8 @@ const formatDate = (dateString) => {
                     </p>
                 </div>
                 <div class="flex justify-between items-center pt-6">
-                    <span class="text-sm font-medium text-gray-600">{{ featuredArticle?.category.name }}</span>
-                    <NuxtLink :to="{ name: 'post-id', params: { id: featuredArticle.id } }"
+                    <span class="text-sm font-medium text-gray-600">{{ featuredArticle?.category?.name }}</span>
+                    <NuxtLink :to="{ name: 'post-id', params: { id: featuredArticle?.id } }"
                         class="text-gray-900 font-semibold hover:text-gray-700 transition-colors flex items-center gap-2">
                         Read <span class="text-lg leading-none">→</span>
                     </NuxtLink>
@@ -55,7 +73,7 @@ const formatDate = (dateString) => {
         </article>
 
         <!-- Popular Articles Section -->
-        <section class="mb-20">
+        <section v-if="posts?.data?.length > 0" class="mb-20">
             <h2 class="text-[32px] font-bold text-gray-900 mb-12">Popular Articles</h2>
             <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
                 <article v-for="article in posts?.data" :key="article.id"

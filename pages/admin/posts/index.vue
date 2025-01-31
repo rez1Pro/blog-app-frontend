@@ -33,13 +33,15 @@ const columns = [
 
 const handleDelete = (post) => {
     // Add delete logic here
-    (useForm({
-        _method: 'DELETE'
-    })).post(`posts/${post.id}`, {
-        onSuccess: (response) => {
-            // refresh()
-        }
-    })
+    if (post?.id) {
+        (useForm({
+            _method: 'DELETE'
+        })).post(`posts/${post?.id}`, {
+            onSuccess: (response) => {
+                refresh()
+            }
+        })
+    }
 }
 
 </script>
