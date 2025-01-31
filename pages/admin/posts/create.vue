@@ -14,7 +14,6 @@ const form = useForm({
     title: '',
     slug: '',
     content: '',
-    is_published: false,
     category_id: null,
     imageFile: null as unknown as File | null
 })
@@ -99,6 +98,23 @@ onMounted(() => {
                             <BaseInputError :error="form.errors.imageFile" />
                         </div>
 
+                        <!-- Status and Category -->
+                        <div class=" gap-6 mb-6">
+                            <!-- Category -->
+                            <div>
+                                <label for="category" class="block text-lg font-medium text-gray-700 mb-3">
+                                    Category
+                                </label>
+                                <select id="category" v-model="form.category_id"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                    <option :value="null">Select Category</option>
+                                    <option v-for="category in categories" :value="category.id">
+                                        {{ category.name }}
+                                    </option>
+                                </select>
+                                <BaseInputError :error="form.errors.category_id" />
+                            </div>
+                        </div>
                         <!-- Other form fields - Updated styling -->
                         <div class="space-y-8">
                             <!-- Title Input -->
@@ -132,35 +148,6 @@ onMounted(() => {
                                     class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                                     placeholder="Write your post content here..."></textarea>
                                 <BaseInputError :error="form.errors.content" />
-                            </div>
-
-                            <!-- Status and Category -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div>
-                                    <label for="status" class="block text-lg font-medium text-gray-700 mb-3">
-                                        Status
-                                    </label>
-                                    <select id="status" v-model="form.is_published"
-                                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                                        <option :value="true">Published</option>
-                                        <option :value="true">Unpublished</option>
-                                    </select>
-                                    <BaseInputError :error="form.errors.is_published" />
-                                </div>
-
-                                <div>
-                                    <label for="category" class="block text-lg font-medium text-gray-700 mb-3">
-                                        Category
-                                    </label>
-                                    <select id="category" v-model="form.category_id"
-                                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                                        <option :value="null">Select Category</option>
-                                        <option v-for="category in categories" :value="category.id">
-                                            {{ category.name }}
-                                        </option>
-                                    </select>
-                                    <BaseInputError :error="form.errors.category_id" />
-                                </div>
                             </div>
 
                             <!-- Action Buttons - Modernized -->
