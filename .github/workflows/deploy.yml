@@ -16,6 +16,8 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: npm install
+      - name: Environment copy 
+        run: cp .env.prod .env
       - name: Build
         run: npm run build
       - name: PM2
