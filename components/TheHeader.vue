@@ -7,7 +7,7 @@ import user from '~/public/svg/user.svg'
         <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-20">
             <div class="flex items-center gap-8">
                 <NuxtLink to="/" class="flex-shrink-0">
-                    <img src="/svg/logo.svg" alt="Events in Minutes" class="h-8 w-auto" />
+                    <img src="/svg/logo.svg" alt="Events in Minutes" class="h-12 w-auto" />
                 </NuxtLink>
                 <a href="tel:+1(628)587-3235"
                     class="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors">

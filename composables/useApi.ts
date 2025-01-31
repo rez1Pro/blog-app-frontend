@@ -1,3 +1,4 @@
+import type { UseFetchOptions } from "#app";
 import type { AvailableRouterMethod, NitroFetchRequest } from "nitropack";
 import type { FetchContext, FetchOptions, FetchResponse } from "ofetch";
 
@@ -5,11 +6,11 @@ interface NitroFetchOptions<R extends NitroFetchRequest, M extends AvailableRout
     method?: Uppercase<M> | M;
 }
 
-export default function useApi(apiEndpoint: string | Function, options?: {
+export default function useApi(apiEndpoint: string | Function, options?: UseFetchOptions<any> & {
     onSuccess?: (data: any) => void,
     onError?: (response: any) => void,
     onTransform?: (data: any) => any,
-    processing?: boolean
+    processing?: boolean,
 }) {
     const runtime = useRuntimeConfig()
 
