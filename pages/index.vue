@@ -7,10 +7,6 @@ const error = ref(null)
 
 const { data: posts, refresh, processing, error: apiError } = await useApi(() => `all-posts?page=${page.value}&filter[title]=${search.value}`, {
     server: true
-    // onTransform(data) {
-    //     console.log(data
-    //     return data
-    // }    
 })
 
 // Update computed to handle potential errors
@@ -59,7 +55,7 @@ const formatDate = (dateString) => {
                     <span class="text-sm text-gray-600">{{ formatDate(featuredArticle?.published_at) }}</span>
                     <h2 class="text-2xl font-bold text-gray-900 leading-tight">{{ featuredArticle?.title }}</h2>
                     <p class="text-gray-600 text-base leading-relaxed">
-                        {{ featuredArticle?.content }}
+                        {{ featuredArticle?.short_description }}
                     </p>
                 </div>
                 <div class="flex justify-between items-center pt-6">
@@ -93,7 +89,7 @@ const formatDate = (dateString) => {
                             </NuxtLink>
                         </h3>
                         <p class="text-base text-gray-600 leading-relaxed">
-                            {{ article.content }}
+                            {{ article.short_description }}
                         </p>
                     </div>
                 </article>

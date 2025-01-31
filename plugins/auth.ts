@@ -15,7 +15,7 @@ export default defineNuxtPlugin((nuxtApp) => {
                     token: token
                 })
             }).catch((error) => {
-                process.client ? localStorage.removeItem('token') : null
+                localStorage.removeItem('token')
             })
         }
     }

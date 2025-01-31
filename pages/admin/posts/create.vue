@@ -14,6 +14,7 @@ const form = useForm({
     title: '',
     slug: '',
     content: '',
+    short_description: '',
     category_id: null,
     imageFile: null as unknown as File | null
 })
@@ -137,6 +138,17 @@ onMounted(() => {
                                     class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                                     placeholder="post-url-slug" />
                                 <BaseInputError :error="form.errors.slug" />
+                            </div>
+
+                            <!-- Short Description -->
+                            <div>
+                                <label for="short_description" class="block text-lg font-medium text-gray-700 mb-3">
+                                    Short Description
+                                </label>
+                                <textarea id="short_description" v-model="form.short_description" rows="8"
+                                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                    placeholder="Write your post short description here..."></textarea>
+                                <BaseInputError :error="form.errors.short_description" />
                             </div>
 
                             <!-- Content Editor -->
