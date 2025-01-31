@@ -21,9 +21,14 @@ export default function useForm<T>(body: T) {
             })
         },
         post: async (api: string, options?: NitroFetchOptions<any> & backendResType) => {
+            const formData = new FormData()
             await useSubmit(api, {
                 ...options,
-                body: data.value || {},
+                body: Object.keys(data.value || {}).reduce((acc, key) => {
+                    // @ts-ignore
+                    formData.append(key, data.value[key] as typeof data.value[key]);
+                    return formData;
+                }, {}),
                 onRequest() {
                     form.processing = true;
                     // @ts-ignore

@@ -24,15 +24,15 @@ const emit = defineEmits<{
 }>()
 
 // Simplified computed properties using PostsApiResponse values
-const totalPages = computed(() => props.items.last_page)
+const totalPages = computed(() => props.items?.last_page)
 
-const startItem = computed(() => props.items.from)
+const startItem = computed(() => props.items?.from)
 
-const endItem = computed(() => props.items.to)
+const endItem = computed(() => props.items?.to)
 
-const totalItems = computed(() => props.items.total)
+const totalItems = computed(() => props.items?.total)
 
-const currentPage = computed(() => props.items.current_page)
+const currentPage = computed(() => props.items?.current_page)
 
 const shouldShowPageButton = (pageNum: number) => {
     if (!currentPage.value) return true;
@@ -59,7 +59,7 @@ const shouldShowEllipsis = (pageNum: number) => {
                 <thead class="bg-gray-50">
                     <tr>
                         <th v-for="column in columns" :key="column.key"
-                            class="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                            class="px-4 text-left sm:px-6 py-3 text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wider"
                             :class="{
                                 'text-right': column.key === 'actions',
                                 'w-48': ['title', 'content'].includes(column.key),
@@ -70,8 +70,8 @@ const shouldShowEllipsis = (pageNum: number) => {
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    <template v-if="items.data && items.data.length > 0">
-                        <tr v-for="(item, index) in items.data" :key="item.id || index"
+                    <template v-if="items?.data && items?.data?.length > 0">
+                        <tr v-for="(item, index) in items?.data" :key="item.id || index"
                             class="hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer">
                             <td v-for="column in columns" :key="column.key"
                                 class="px-4 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-700 dark:text-gray-200">

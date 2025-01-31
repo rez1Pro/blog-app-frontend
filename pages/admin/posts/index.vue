@@ -23,6 +23,7 @@ const formatDate = (dateString) => {
 }
 
 const columns = [
+    { key: 'thumbnail', label: 'Thumbnail' },
     { key: 'title', label: 'Title' },
     { key: 'category', label: 'Category' },
     { key: 'is_published', label: 'Published' },
@@ -30,14 +31,15 @@ const columns = [
     { key: 'actions', label: 'Actions' }
 ]
 
-const handleEdit = (post) => {
-    // Add edit logic here
-    console.log('Edit post:', post)
-}
-
 const handleDelete = (post) => {
     // Add delete logic here
-    console.log('Delete post:', post)
+    (useForm({
+        _method: 'DELETE'
+    })).post(`posts/${post.id}`, {
+        onSuccess: (response) => {
+            // refresh()
+        }
+    })
 }
 
 </script>
@@ -71,6 +73,10 @@ const handleDelete = (post) => {
 
             <BaseDataTable :loading="processing" :columns="columns" :items="posts ?? []"
                 @page-change="(pageNum) => page = pageNum">
+
+                <template #thumbnail="{ item }">
+                    <img :src="item.image_url" alt="Thumbnail" class="w-10 h-10 rounded-md">
+                </template>
                 <template #category="{ item }">
                     {{ item.category?.name }}
                 </template>
@@ -85,14 +91,15 @@ const handleDelete = (post) => {
                 <!-- you can cusotmize your table here -->
                 <template #actions="{ item }">
                     <div class="flex justify-end gap-2">
-                        <button @click="handleEdit(item)"
+
+                        <!-- <button @click="handleEdit(item)"
                             class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors duration-200">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
                             Edit
-                        </button>
+                        </button> -->
                         <button @click="handleDelete(item)"
                             class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 rounded-md transition-colors duration-200">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

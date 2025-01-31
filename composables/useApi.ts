@@ -12,7 +12,6 @@ export default function useApi(apiEndpoint: string | Function, options?: {
     processing?: boolean
 }) {
     const runtime = useRuntimeConfig()
-    const auth = useNuxtApp().$auth as any
 
     return useFetch(apiEndpoint as string, {
         baseURL: runtime.public.apiBase as string,
@@ -20,7 +19,7 @@ export default function useApi(apiEndpoint: string | Function, options?: {
         headers: {
             Accept: "application/json",
             "Cache-Control": "no-cache",
-            Authorization: `Bearer ${auth?.token}`,
+            Authorization: `Bearer ${process.client ? localStorage.getItem('token') : ''}`,
             // "Content-Type": "application/json",
         },
         onRequest({ request }) {

@@ -14,9 +14,11 @@ const form = useForm({
 
 const handleLogin = async () => {
     await form.post('login', {
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
             localStorage.setItem('token', response.token)
-            navigateTo(route.query.redirect as string || '/admin/posts')
+
+            console.log(localStorage.getItem('token'))
+            await navigateTo(route.query.redirect as string || '/admin/posts')
         }
     })
 }

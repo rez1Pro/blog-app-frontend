@@ -1,9 +1,6 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    const { $auth } = useNuxtApp() as any
-
-
     if (process.client) {
-        if (!$auth?.isAuthenticated || localStorage.getItem('token') == null) {
+        if (localStorage.getItem('token') == null) {
             return navigateTo({
                 name: 'login',
                 query: {
