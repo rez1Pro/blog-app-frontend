@@ -70,7 +70,7 @@ const goToAllPosts = () => {
         <article v-else-if="featuredArticle"
             class="grid lg:grid-cols-2 gap-12 lg:gap-8 mb-20 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
             <img :src="featuredArticle?.image_url" alt="Team Building" loading="lazy"
-                class="w-full h-[380px] object-cover rounded-l-2xl shadow-sm" />
+                class="w-full h-[380px] object-cover lg:rounded-l-2xl shadow-sm rounded-t-2xl" />
             <div class="flex flex-col justify-between h-full p-8">
                 <div class="space-y-4">
                     <span class="text-sm text-gray-500">{{ formatDate(featuredArticle?.published_at) }}</span>

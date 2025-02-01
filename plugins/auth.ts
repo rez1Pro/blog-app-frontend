@@ -1,22 +1,9 @@
-export default defineNuxtPlugin((nuxtApp) => {
-    if (process.client) {
-        const token = localStorage.getItem('token')
+import { createPinia } from "pinia";
+import { useAuthStore } from "~/store/auth";
 
-        if (token) {
-            $fetch(`${nuxtApp.$config.public.apiBase}/user`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            }).then((response) => {
-                nuxtApp.provide('auth', {
-                    isAuthenticated: true,
-                    token: token
-                })
-            }).catch((error) => {
-                localStorage.removeItem('token')
-            })
-        }
-    }
+const pinia = createPinia()
+const authStore = useAuthStore(pinia)
+
+export default defineNuxtPlugin((nuxtApp) => {
+    authStore.fetchUser()
 })

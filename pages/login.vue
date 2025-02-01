@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
+import { useAuthStore } from '~/store/auth';
 
 definePageMeta({
     layout: "guest",
@@ -12,12 +13,11 @@ const form = useForm({
     password: 'password'
 })
 
+
 const handleLogin = async () => {
     await form.post('login', {
         onSuccess: async (response) => {
-            localStorage.setItem('token', response.token)
-
-            console.log(localStorage.getItem('token'))
+            useAuthStore().login(response.token)
             await navigateTo(route.query.redirect as string || '/admin/posts')
         }
     })
